@@ -10,7 +10,7 @@ Using float32 models (non-quantized) with TensorFlow Lite 2.1.
 
 | Environment  | Arena size |
 | ------------- | ------------- |
-| macOS Catalina  | 2264 bytes  |
+| macOS Catalina  | 2272 bytes  |
 | Node.js (WebAssembly)  | 1420 bytes  |
 | Mbed OS (Cortex-M4F) | 1392 bytes |
 
