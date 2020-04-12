@@ -1,6 +1,6 @@
 {
   "name": "tflite-find-arena-size",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Find TensorFlow Lite arena size",
   "main": "emcc/find-arena.js",
   "repository": {
