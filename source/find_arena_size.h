@@ -54,7 +54,9 @@ int find_arena_size(char *tflite_buffer, size_t a_low, size_t a_high) {
 
     size_t low = a_low;
     size_t high = a_high;
-    size_t curr = low + ((high - low) / 2);
+    // we start at 12.5% of the max. because I expect most models to be smaller
+    size_t curr = low + ((high - low) / 8);
+
     size_t last_success = high;
     size_t steps = 0;
 
