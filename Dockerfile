@@ -3,16 +3,21 @@ FROM python:3.7.5-stretch
 WORKDIR /app
 
 # APT packages
-RUN apt update && apt install -y zip
+RUN apt update && apt install -y zip lsb-release wget software-properties-common apt-transport-https
 
-# Install Emscripten
-RUN git clone https://github.com/emscripten-core/emsdk.git && \
-    cd emsdk && \
-    ./emsdk install 1.39.7 && \
-    ./emsdk activate 1.39.7
+# Install LLVM for find-arena-size
+RUN wget https://apt.llvm.org/llvm.sh && \
+    chmod +x llvm.sh && \
+    ./llvm.sh 10
 
-RUN echo "PATH=$PATH:/app/emsdk:/app/emsdk/node/12.9.1_64bit/bin:/app/emsdk/upstream/emscripten" > ~/.bashrc
+# Build the tflite-find-arena-size binary
+RUN ln -s $(which clang-10) /usr/bin/clang && \
+    ln -s $(which clang++-10) /usr/bin/clang++
 
-COPY . ./
+COPY ./ .
 
-CMD ["/bin/bash", "-c", "source /root/.bashrc && make -f Makefile.emcc"]
+# this segfaults in llvm10 on the linux box?!
+RUN sed -i 's/MicroInterpreter::~MicroInterpreter() {/MicroInterpreter::~MicroInterpreter() { return;/g' ./edge-impulse-sdk/tensorflow/lite/micro/micro_interpreter.cc
+RUN make && ln -s $PWD/build/find-arena-size /usr/bin/find-arena-size
+
+ENTRYPOINT [ "/usr/bin/find-arena-size" ]
