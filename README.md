@@ -1,3 +1,5 @@
+> **DEPRECATED: This is a very old repo. The Edge Impulse Python SDK has functions to profile models, incl. finding arena size when running under TensorFlow Lite Micro (both w/ CMSIS-NN and when running reference kernels). See https://docs.edgeimpulse.com/docs/edge-impulse-python-sdk/overview#profile**
+
 # Find TensorFlow Lite Arena Size
 
 TensorFlow Lite for microcontrollers requires an arena size to be specified, but there's no quick way of calculating the minimum size of the arena. This repository contains an application which loads a tflite model and uses a divide and conquer algorithm to find the optimal size. The size of the arena is dependent on the target architecture, so it's advisable to run this application on the same platform as where you want to deploy the model. What we've found so far is that the arena size on a 64-bit computer (e.g. under macOS) is always bigger than on 32-bits.
